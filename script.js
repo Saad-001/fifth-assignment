@@ -13,12 +13,14 @@ document.getElementById("searchBtn").addEventListener("click", function () {
     const url = (`https://www.themealdb.com/api/json/v1/1/search.php?s=${inputValue}`)
     fetch(url)
         .then(res => res.json())
-        .then(data => displaySearchItem(data))     
+        .then(data => displaySearchItem(data))
+        .catch(error => displayError ("Sorry sir!! we don't have this meal"));
     }
 })
 
 const displaySearchItem = foods => {
     const mealDiv = document.getElementById("mealContainer");
+    mealDiv.innerHTML = '';
     for (let i = 0; i < foods.meals.length; i++) {
         const item = foods.meals[i];
         console.log(item);
@@ -43,8 +45,8 @@ const displayFoodDetail = detail => {
 }
 
 const renderFoodDetails = food => {
-    console.log(food);
     const findDetail = document.getElementById("displayDetail");
+    findDetail.innerText = '';
     findDetail.innerHTML = `
         <img src="${food.strMealThumb}"></img>
         <h1>Name : ${food.strMeal}</h1>
@@ -62,6 +64,12 @@ const renderFoodDetails = food => {
         <p>${food.strIngredient9}</p>
         <p>${food.strIngredient10} etc...</p>
     `
+}
+
+const displayError = error => {
+   const errorTag = document.getElementById("display-error");
+   errorTag.innerHTML = '';
+   errorTag.innerText = error;
 }
 
 // ending javascript
